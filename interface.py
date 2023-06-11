@@ -33,7 +33,7 @@ class BotInterface:
         """Кнопки"""
         buttons = ['Привет', 'Поиск', 'Пока']
         button_colors = [VkKeyboardColor.SECONDARY, VkKeyboardColor.SECONDARY, VkKeyboardColor.SECONDARY]
-        keyboard = self.chat_keyboard(buttons, button_colors)
+        keyboard = chat_keyboard(buttons, button_colors)
         for event in self.longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 if event.text.lower() == 'привет':
@@ -46,7 +46,6 @@ class BotInterface:
                             while True:
                                 for event_ in self.longpoll.listen():
                                     if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
-                                        self.params = self.vk_tools.get_profile_info(event.user_id)
                                         self.params['city'] = event_.text
                                         break
                         elif not self.params['sex']:
@@ -55,7 +54,6 @@ class BotInterface:
                             while True:
                                 for event_ in self.longpoll.listen():
                                     if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
-                                        self.params = self.vk_tools.get_profile_info(event.user_id)
                                         self.params['sex'] = event_.text
                                         break
                         elif not self.params['year']:
@@ -64,7 +62,6 @@ class BotInterface:
                             while True:
                                 for event_ in self.longpoll.listen():
                                     if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
-                                        self.params = self.vk_tools.get_profile_info(event.user_id)
                                         self.params['year'] = event_.text
                                         break
                         elif not self.params['relation'] or self.params['relation'] is None:
@@ -74,7 +71,6 @@ class BotInterface:
                             while True:
                                 for event_ in self.longpoll.listen():
                                     if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
-                                        self.params = self.vk_tools.get_profile_info(event.user_id)
                                         self.params['relation'] = event_.text
                                         break
                         else:
@@ -124,12 +120,12 @@ class BotInterface:
                     self.message_send(
                         event.user_id, 'Неизвестная команда', keyboard=keyboard.get_keyboard())
 
-    @staticmethod
-    def chat_keyboard(buttons, button_colors):
-        keyboard = VkKeyboard(one_time=True)
-        for button, button_color in zip(buttons, button_colors):
-            keyboard.add_button(button, button_color)
-        return keyboard
+
+def chat_keyboard(buttons, button_colors):
+    keyboard = VkKeyboard(one_time=True)
+    for button, button_color in zip(buttons, button_colors):
+        keyboard.add_button(button, button_color)
+    return keyboard
 
 
 if __name__ == '__main__':
