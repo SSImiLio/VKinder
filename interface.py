@@ -33,7 +33,7 @@ class BotInterface:
         """Кнопки"""
         buttons = ['Привет', 'Поиск', 'Пока']
         button_colors = [VkKeyboardColor.SECONDARY, VkKeyboardColor.SECONDARY, VkKeyboardColor.SECONDARY]
-        keyboard = chat_keyboard(buttons, button_colors)
+        keyboard = self.chat_keyboard(buttons, button_colors)
         for event in self.longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 if event.text.lower() == 'привет':
@@ -120,12 +120,11 @@ class BotInterface:
                     self.message_send(
                         event.user_id, 'Неизвестная команда', keyboard=keyboard.get_keyboard())
 
-
-def chat_keyboard(buttons, button_colors):
-    keyboard = VkKeyboard(one_time=True)
-    for button, button_color in zip(buttons, button_colors):
-        keyboard.add_button(button, button_color)
-    return keyboard
+    def chat_keyboard(self, buttons, button_colors):
+        keyboard: VkKeyboard = VkKeyboard(one_time=True)
+        for button, button_color in zip(buttons, button_colors):
+            keyboard.add_button(button, button_color)
+        return keyboard
 
 
 if __name__ == '__main__':
