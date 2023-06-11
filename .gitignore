@@ -1,5 +1,5 @@
 # IntellijIdea files
 *.iml
 .idea
-.__pycahe__
+.__pycache__
 out
